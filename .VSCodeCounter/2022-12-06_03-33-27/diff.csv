@@ -1,0 +1,22 @@
+"filename", "language", "Go", "Markdown", "JSON", "Go Module File", "Go Checksum File", "comment", "blank", "total"
+"c:\Users\Chrigeeel\matura-blockchain\README.md", "Markdown", 0, -1, 0, 0, 0, 0, -2, -3
+"c:\Users\Chrigeeel\matura-blockchain\chain.json", "JSON", 0, 0, -63, 0, 0, 0, -1, -64
+"c:\Users\Chrigeeel\matura-blockchain\config.json", "JSON", 0, 0, -3, 0, 0, 0, -1, -4
+"c:\Users\Chrigeeel\matura-blockchain\core\balance.go", "Go", 26, 0, 0, 0, 0, 0, 7, 33
+"c:\Users\Chrigeeel\matura-blockchain\core\chain.go", "Go", -104, 0, 0, 0, 0, -16, -18, -138
+"c:\Users\Chrigeeel\matura-blockchain\core\core.go", "Go", 9, 0, 0, 0, 0, 0, 4, 13
+"c:\Users\Chrigeeel\matura-blockchain\core\hash.go", "Go", -3, 0, 0, 0, 0, 0, -1, -4
+"c:\Users\Chrigeeel\matura-blockchain\core\keys.go", "Go", 14, 0, 0, 0, 0, 0, 1, 15
+"c:\Users\Chrigeeel\matura-blockchain\core\mempool.go", "Go", 20, 0, 0, 0, 0, 0, 8, 28
+"c:\Users\Chrigeeel\matura-blockchain\core\mine.go", "Go", 1, 0, 0, 0, 0, 0, 1, 2
+"c:\Users\Chrigeeel\matura-blockchain\core\network.go", "Go", -9, 0, 0, 0, 0, 0, -3, -12
+"c:\Users\Chrigeeel\matura-blockchain\core\peers.go", "Go", 77, 0, 0, 0, 0, 0, 22, 99
+"c:\Users\Chrigeeel\matura-blockchain\core\rpc.go", "Go", 98, 0, 0, 0, 0, 0, 25, 123
+"c:\Users\Chrigeeel\matura-blockchain\core\start.go", "Go", 117, 0, 0, 0, 0, 0, 24, 141
+"c:\Users\Chrigeeel\matura-blockchain\core\target.go", "Go", 19, 0, 0, 0, 0, 0, 9, 28
+"c:\Users\Chrigeeel\matura-blockchain\core\transaction.go", "Go", 48, 0, 0, 0, 0, 0, 11, 59
+"c:\Users\Chrigeeel\matura-blockchain\go.mod", "Go Module File", 0, 0, 0, -17, 0, 0, -3, -20
+"c:\Users\Chrigeeel\matura-blockchain\go.sum", "Go Checksum File", 0, 0, 0, 0, -39, 0, -1, -40
+"c:\Users\Chrigeeel\matura-blockchain\main.go", "Go", -25, 0, 0, 0, 0, 0, -8, -33
+"c:\Users\Chrigeeel\matura-blockchain\peers.json", "JSON", 0, 0, -1, 0, 0, 0, -1, -2
+"Total", "-", 288, -1, -67, -17, -39, -16, 73, 221

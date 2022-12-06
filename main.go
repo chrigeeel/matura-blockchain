@@ -24,9 +24,10 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+
+	core.StartCore()
 }
 
 func main() {
-
 	core.Mine(config.PrivateKey)
 }

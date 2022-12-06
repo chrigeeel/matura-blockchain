@@ -1,9 +1,18 @@
 package core
 
 import (
+	"crypto/rand"
 	"encoding/json"
 	"errors"
+	"math"
+	"math/big"
 )
+
+type RPCTransaction struct {
+	Status        string      `json:"status"`
+	Confirmations int         `json:"confirmations"`
+	Data          Transaction `json:"data"`
+}
 
 type Transaction struct {
 	IsCoinbase bool            `json:"isCoinbase"`
@@ -12,7 +21,7 @@ type Transaction struct {
 }
 
 type TransactionData struct {
-	Sender   PublicKey `json:"publicKey"`
+	Sender   PublicKey `json:"sender"`
 	Receiver PublicKey `json:"receiver"`
 	Amount   uint64    `json:"amount"`
 	Nonce    uint64    `json:"nonce"`
@@ -42,17 +51,50 @@ func (t Transaction) DataToSign() (Hash, error) {
 	return HashBytes(data), nil
 }
 
+func (t Transaction) VerifyTotal(regardMempool bool) bool {
+	if !t.VerifySignature() {
+		return false
+	}
+
+	if !t.VerifyNonce() {
+		return false
+	}
+
+	if t.IsFieldEmpty() {
+		return false
+	}
+
+	balance := ThisChain.GetBalance(t.Data.Sender, regardMempool)
+	return t.Data.Amount <= balance
+}
+
 func (t Transaction) VerifySignature() bool {
-	data, _ := t.MarshalData()
-	return t.Signature.Verify(t.Data.Sender, data)
+	data, _ := t.DataToSign()
+	return t.Signature.Verify(t.Data.Sender, data[:])
+}
+
+func (t Transaction) VerifyNonce() bool {
+	for _, block := range ThisChain {
+		for _, tx := range block.Transactions {
+			if tx.Data.Nonce == t.Data.Nonce {
+				return false
+			}
+		}
+	}
+
+	return true
 }
 
 func (t Transaction) IsFieldEmpty() bool {
 	return t.Data.Sender == EmptyPublicKey || t.Data.Receiver == EmptyPublicKey || t.Data.Amount == 0 || t.Signature == EmptySignature
 }
 
+func (t Transaction) IsReadyToSign() bool {
+	return t.Data.Sender == EmptyPublicKey || t.Data.Receiver == EmptyPublicKey || t.Data.Amount == 0
+}
+
 func (t Transaction) MarshalData() ([]byte, error) {
-	if t.IsFieldEmpty() {
+	if t.IsReadyToSign() {
 		return []byte{}, errors.New("fields missing")
 	}
 
@@ -65,7 +107,7 @@ func (t Transaction) MarshalData() ([]byte, error) {
 }
 
 func (t Transaction) Marshal() ([]byte, error) {
-	if t.IsFieldEmpty() {
+	if t.IsReadyToSign() {
 		return []byte{}, errors.New("fields missing")
 	}
 
@@ -83,9 +125,26 @@ func UnmarshalTransaction(b []byte) (Transaction, error) {
 	if err != nil {
 		return Transaction{}, err
 	}
-	if t.IsFieldEmpty() {
+	if t.IsReadyToSign() {
 		return Transaction{}, errors.New("fields missing")
 	}
 
 	return t, nil
+}
+
+func NewTransaction(opts TransactionData) Transaction {
+	opts.Nonce, _ = randint64()
+
+	return Transaction{
+		IsCoinbase: false,
+		Data:       opts,
+	}
+}
+
+func randint64() (uint64, error) {
+	val, err := rand.Int(rand.Reader, big.NewInt(int64(math.MaxInt64)))
+	if err != nil {
+		return 0, err
+	}
+	return val.Uint64(), nil
 }

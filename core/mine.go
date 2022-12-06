@@ -10,14 +10,15 @@ import (
 
 func Mine(k PrivateKey) {
 	var hashPerSecond int
-	target := ThisChain.CalculateTarget()
 	publicKey := k.PublicKey()
+	target := ThisChain.CalculateTarget()
 	go func() {
 		ticker := time.NewTicker(time.Second)
 		for {
 			<-ticker.C
 			log.Printf("Mining... | %d H/s\n", hashPerSecond)
 			hashPerSecond = 0
+			target = ThisChain.CalculateTarget()
 		}
 	}()
 	for {
@@ -27,6 +28,7 @@ func Mine(k PrivateKey) {
 		}
 		solution := fmt.Sprintf("%s-%s", publicKey.String(), nonce)
 		hashPerSecond++
+
 		if !VerifySolution(target, []byte(solution)) {
 			continue
 		}

@@ -3,11 +3,8 @@ package core
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"io/ioutil"
 	"net/http"
-	"sync"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
@@ -18,8 +15,12 @@ const (
 )
 
 var (
-	PermanentPeers = []string{"3.122.2.210", "3.124.44.37", "3.66.6.144"}
+	PermanentPeers = []string{"3.122.2.210"}
 )
+
+func StartNodeServer() {
+	go NodeServer()
+}
 
 func NodeServer() {
 	app := fiber.New()
@@ -31,30 +32,41 @@ func NodeServer() {
 			return err
 		}
 
-		err := AddBlock(*block)
+		fmt.Println("new block")
+		fmt.Println(block)
+
+		err := AddBlock(*block, false)
 		if err != nil {
 			return c.SendStatus(fiber.StatusBadRequest)
 		}
 
 		return c.SendStatus(fiber.StatusOK)
 	})
+
 	app.Post("/transaction", func(c *fiber.Ctx) error {
 		transaction := new(Transaction)
 
 		if err := c.BodyParser(transaction); err != nil {
-			return err
+			return c.SendStatus(fiber.StatusBadRequest)
 		}
 
-		AddTransactionToMempool(*transaction)
+		fmt.Println("new transaction from broadcast")
+
+		err := AddTransactionToMempool(*transaction)
+		if err != nil {
+			return c.SendStatus(fiber.StatusBadRequest)
+		}
 
 		return c.SendStatus(fiber.StatusOK)
 	})
-	app.Post("/peer", func(c *fiber.Ctx) error {
-		peer := c.FormValue("peer")
+
+	app.Post("/peer/+", func(c *fiber.Ctx) error {
+		peer := c.Params("+")
 		if peer == "" {
 			return c.SendStatus(fiber.StatusBadRequest)
 		}
 
+		fmt.Printf("new peer %s", peer)
 		WritePeer(peer)
 		return c.SendStatus(fiber.StatusOK)
 	})
@@ -74,22 +86,27 @@ func NodeServer() {
 		}
 		return c.JSON(peers)
 	})
+
+	app.Listen(fmt.Sprintf(":%d", NodePort))
 }
 
 func BroadcastTransaction(transaction Transaction) error {
-	AddTransactionToMempool(transaction)
+	err := AddTransactionToMempool(transaction)
+	if err != nil {
+		return err
+	}
 
 	peers, err := ReadPeers()
 	if err != nil {
 		return err
 	}
 
-	var wg sync.WaitGroup
-	wg.Add(len(peers))
+	self := GetSelfPeer()
 	for _, peer := range peers {
-		go func(wg *sync.WaitGroup, peer string) {
-			defer wg.Done()
-
+		if peer == self {
+			continue
+		}
+		go func(peer string) {
 			url := fmt.Sprintf("http://%s:%d/transaction", peer, NodePort)
 			j, err := json.Marshal(transaction)
 			if err != nil {
@@ -101,73 +118,44 @@ func BroadcastTransaction(transaction Transaction) error {
 			}
 			req.Header.Set("content-type", "application/json")
 			http.DefaultClient.Do(req)
-		}(&wg, peer)
+		}(peer)
 		time.Sleep(time.Millisecond * 10)
 	}
-	wg.Wait()
 
 	return nil
 }
 
 func BroadcastBlock(block Block) error {
-	err := AddBlock(block)
+	fmt.Println("broadcasting block")
+	err := AddBlock(block, true)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println("done adding")
-
 	peers, err := ReadPeers()
 	if err != nil {
 		return err
 	}
 
+	self := GetSelfPeer()
 	for _, peer := range peers {
-		url := fmt.Sprintf("http://%s:%d/block", peer, NodePort)
-		j, err := json.Marshal(block)
-		if err != nil {
-			return err
+		if peer == self {
+			continue
 		}
-		req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(j))
-		if err != nil {
-			return err
-		}
-		req.Header.Set("content-type", "application/json")
-		http.DefaultClient.Do(req)
+		go func(peer string) {
+			url := fmt.Sprintf("http://%s:%d/block", peer, NodePort)
+			j, err := json.Marshal(block)
+			if err != nil {
+				return
+			}
+			req, err := http.NewRequest(http.MethodPost, url, bytes.NewBuffer(j))
+			if err != nil {
+				return
+			}
+			req.Header.Set("content-type", "application/json")
+			http.DefaultClient.Do(req)
+		}(peer)
 	}
 
 	return nil
-}
-
-func ReadPeers() ([]string, error) {
-	var peers []string
-
-	f, err := ioutil.ReadFile("./peers.json")
-	if err != nil {
-		return []string{}, err
-	}
-
-	err = json.Unmarshal(f, &peers)
-	return peers, err
-}
-
-func WritePeer(peer string) error {
-	peers, err := ReadPeers()
-	if err != nil {
-		return err
-	}
-
-	for _, p := range peers {
-		if p == peer {
-			return errors.New("peer already registered")
-		}
-	}
-
-	peers = append(peers, peer)
-	j, err := json.MarshalIndent(peers, "", "    ")
-	if err != nil {
-		return err
-	}
-
-	return ioutil.WriteFile("./peers.json", j, 0644)
 }

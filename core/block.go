@@ -33,7 +33,9 @@ func BuildBlock(pub PublicKey, solution []byte) (Block, error) {
 	var validTransactions []Transaction
 
 	for _, tx := range thisMempool {
-		if tx.VerifySignature() {
+		fmt.Println(tx)
+		if tx.VerifyTotal(true) {
+			fmt.Println("passed")
 			validTransactions = append(validTransactions, tx)
 		}
 	}
@@ -43,7 +45,6 @@ func BuildBlock(pub PublicKey, solution []byte) (Block, error) {
 		Data: TransactionData{
 			Receiver: pub,
 			Amount:   ThisChain.CalculateReward(),
-			Nonce:    0,
 		},
 	})
 
@@ -67,12 +68,12 @@ func BuildBlock(pub PublicKey, solution []byte) (Block, error) {
 
 func (b Block) Hash() Hash {
 	b.Header.Hash = Hash{}
-	j, _ := json.Marshal(b)
+	j, _ := json.Marshal(b.Header)
 	return HashBytes(j)
 }
 
-func (b Block) Verify() bool {
-	return b.VerifyBlockMiner() && b.VerifyBlockSolution() && b.VerifyBlockTransactions()
+func (b Block) Verify(regardMempool bool) bool {
+	return b.VerifyBlockMiner() && b.VerifyBlockSolution() && b.VerifyBlockTransactions(regardMempool)
 }
 
 func (b Block) VerifyBlockSolution() bool {
@@ -91,19 +92,18 @@ func (b Block) VerifyBlockMiner() bool {
 	return strings.HasPrefix(string(b.Header.Solution), b.Header.Miner.String())
 }
 
-func (b Block) VerifyBlockTransactions() bool {
+func (b Block) VerifyBlockTransactions(regardMempool bool) bool {
 	var rewardPaid bool
 	for _, tx := range b.Transactions {
 		if tx.IsCoinbase {
 			if tx.Data.Receiver != b.Header.Miner || rewardPaid || tx.Data.Amount != ThisChain.CalculateReward() {
-				fmt.Println("1")
 				return false
 			}
 			rewardPaid = true
 			continue
 		}
 
-		if !tx.VerifySignature() || !ValidNonce(tx.Data.Nonce) {
+		if !tx.VerifyTotal(regardMempool) {
 			return false
 		}
 	}

@@ -16,6 +16,8 @@ const (
 )
 
 type PublicKey [PublicKeyLength]byte
+type PrivateKey []byte
+type Signature [SignatureLength]byte
 
 var EmptyPublicKey = PublicKey{}
 
@@ -34,6 +36,23 @@ func (p *PublicKey) UnmarshalJSON(data []byte) (err error) {
 	}
 
 	*p, err = PublicKeyFromBase58(s)
+	if err != nil {
+		return fmt.Errorf("invalid public key %q: %w", s, err)
+	}
+	return
+}
+
+func (k PrivateKey) MarshalJSON() ([]byte, error) {
+	return json.Marshal(base58.Encode(k[:]))
+}
+
+func (k *PrivateKey) UnmarshalJSON(data []byte) (err error) {
+	var s string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return err
+	}
+
+	*k, err = PrivateKeyFromBase58(s)
 	if err != nil {
 		return fmt.Errorf("invalid public key %q: %w", s, err)
 	}
@@ -69,8 +88,6 @@ func PublicKeyFromBase58(in string) (out PublicKey, err error) {
 	copy(out[:], val)
 	return
 }
-
-type PrivateKey []byte
 
 func (k PrivateKey) String() string {
 	return base58.Encode(k)
@@ -124,8 +141,6 @@ func (k PrivateKey) Sign(payload []byte) (Signature, error) {
 
 	return signature, err
 }
-
-type Signature [SignatureLength]byte
 
 var EmptySignature = Signature{}
 

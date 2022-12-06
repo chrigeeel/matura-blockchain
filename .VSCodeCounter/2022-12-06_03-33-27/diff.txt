@@ -1,0 +1,49 @@
+Date : 2022-12-06 03:33:27
+Directory : c:\Users\Chrigeeel\matura-blockchain\core
+Total : 20 files,  164 codes, -16 comments, 73 blanks, all 221 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| Go               |         14 |        288 |        -16 |         82 |        354 |
+| Markdown         |          1 |         -1 |          0 |         -2 |         -3 |
+| Go Module File   |          1 |        -17 |          0 |         -3 |        -20 |
+| Go Checksum File |          1 |        -39 |          0 |         -1 |        -40 |
+| JSON             |          3 |        -67 |          0 |         -3 |        -70 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                     | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                        |         20 |        164 |        -16 |         73 |        221 |
+| ..                                                       |          7 |       -149 |          0 |        -17 |       -166 |
++----------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                 | language         | code       | comment    | blank      | total      |
++----------------------------------------------------------+------------------+------------+------------+------------+------------+
+| c:\Users\Chrigeeel\matura-blockchain\README.md           | Markdown         |         -1 |          0 |         -2 |         -3 |
+| c:\Users\Chrigeeel\matura-blockchain\chain.json          | JSON             |        -63 |          0 |         -1 |        -64 |
+| c:\Users\Chrigeeel\matura-blockchain\config.json         | JSON             |         -3 |          0 |         -1 |         -4 |
+| c:\Users\Chrigeeel\matura-blockchain\core\balance.go     | Go               |         26 |          0 |          7 |         33 |
+| c:\Users\Chrigeeel\matura-blockchain\core\chain.go       | Go               |       -104 |        -16 |        -18 |       -138 |
+| c:\Users\Chrigeeel\matura-blockchain\core\core.go        | Go               |          9 |          0 |          4 |         13 |
+| c:\Users\Chrigeeel\matura-blockchain\core\hash.go        | Go               |         -3 |          0 |         -1 |         -4 |
+| c:\Users\Chrigeeel\matura-blockchain\core\keys.go        | Go               |         14 |          0 |          1 |         15 |
+| c:\Users\Chrigeeel\matura-blockchain\core\mempool.go     | Go               |         20 |          0 |          8 |         28 |
+| c:\Users\Chrigeeel\matura-blockchain\core\mine.go        | Go               |          1 |          0 |          1 |          2 |
+| c:\Users\Chrigeeel\matura-blockchain\core\network.go     | Go               |         -9 |          0 |         -3 |        -12 |
+| c:\Users\Chrigeeel\matura-blockchain\core\peers.go       | Go               |         77 |          0 |         22 |         99 |
+| c:\Users\Chrigeeel\matura-blockchain\core\rpc.go         | Go               |         98 |          0 |         25 |        123 |
+| c:\Users\Chrigeeel\matura-blockchain\core\start.go       | Go               |        117 |          0 |         24 |        141 |
+| c:\Users\Chrigeeel\matura-blockchain\core\target.go      | Go               |         19 |          0 |          9 |         28 |
+| c:\Users\Chrigeeel\matura-blockchain\core\transaction.go | Go               |         48 |          0 |         11 |         59 |
+| c:\Users\Chrigeeel\matura-blockchain\go.mod              | Go Module File   |        -17 |          0 |         -3 |        -20 |
+| c:\Users\Chrigeeel\matura-blockchain\go.sum              | Go Checksum File |        -39 |          0 |         -1 |        -40 |
+| c:\Users\Chrigeeel\matura-blockchain\main.go             | Go               |        -25 |          0 |         -8 |        -33 |
+| c:\Users\Chrigeeel\matura-blockchain\peers.json          | JSON             |         -1 |          0 |         -1 |         -2 |
+| Total                                                    |                  |        164 |        -16 |         73 |        221 |
++----------------------------------------------------------+------------------+------------+------------+------------+------------+

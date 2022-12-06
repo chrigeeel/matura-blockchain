@@ -1,0 +1,45 @@
+Date : 2022-12-06 03:33:34
+Directory : c:\Users\Chrigeeel\matura-blockchain\rpc
+Total : 19 files,  -956 codes, 0 comments, -241 blanks, all -1197 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Go       |         19 |       -956 |          0 |       -241 |     -1,197 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                        | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                           |         19 |       -956 |          0 |       -241 |     -1,197 |
+| ..                                                          |         15 |     -1,048 |          0 |       -268 |     -1,316 |
+| ..\core                                                     |         15 |     -1,048 |          0 |       -268 |     -1,316 |
++-------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                    | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\Chrigeeel\matura-blockchain\core\balance.go        | Go       |        -26 |          0 |         -7 |        -33 |
+| c:\Users\Chrigeeel\matura-blockchain\core\block.go          | Go       |       -100 |          0 |        -23 |       -123 |
+| c:\Users\Chrigeeel\matura-blockchain\core\chain.go          | Go       |        -38 |          0 |        -14 |        -52 |
+| c:\Users\Chrigeeel\matura-blockchain\core\coin.go           | Go       |         -6 |          0 |         -2 |         -8 |
+| c:\Users\Chrigeeel\matura-blockchain\core\core.go           | Go       |        -11 |          0 |         -6 |        -17 |
+| c:\Users\Chrigeeel\matura-blockchain\core\hash.go           | Go       |        -65 |          0 |        -18 |        -83 |
+| c:\Users\Chrigeeel\matura-blockchain\core\keys.go           | Go       |       -168 |          0 |        -41 |       -209 |
+| c:\Users\Chrigeeel\matura-blockchain\core\mempool.go        | Go       |        -20 |          0 |         -8 |        -28 |
+| c:\Users\Chrigeeel\matura-blockchain\core\mine.go           | Go       |        -51 |          0 |         -8 |        -59 |
+| c:\Users\Chrigeeel\matura-blockchain\core\network.go        | Go       |       -131 |          0 |        -31 |       -162 |
+| c:\Users\Chrigeeel\matura-blockchain\core\peers.go          | Go       |        -77 |          0 |        -22 |        -99 |
+| c:\Users\Chrigeeel\matura-blockchain\core\rpc.go            | Go       |        -98 |          0 |        -25 |       -123 |
+| c:\Users\Chrigeeel\matura-blockchain\core\start.go          | Go       |       -117 |          0 |        -24 |       -141 |
+| c:\Users\Chrigeeel\matura-blockchain\core\target.go         | Go       |        -19 |          0 |         -9 |        -28 |
+| c:\Users\Chrigeeel\matura-blockchain\core\transaction.go    | Go       |       -121 |          0 |        -30 |       -151 |
+| c:\Users\Chrigeeel\matura-blockchain\rpc\error.go           | Go       |         16 |          0 |          5 |         21 |
+| c:\Users\Chrigeeel\matura-blockchain\rpc\getBalance.go      | Go       |         27 |          0 |          9 |         36 |
+| c:\Users\Chrigeeel\matura-blockchain\rpc\rpc.go             | Go       |         12 |          0 |          4 |         16 |
+| c:\Users\Chrigeeel\matura-blockchain\rpc\sendTransaction.go | Go       |         37 |          0 |          9 |         46 |
+| Total                                                       |          |       -956 |          0 |       -241 |     -1,197 |
++-------------------------------------------------------------+----------+------------+------------+------------+------------+
